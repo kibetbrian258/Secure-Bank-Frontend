@@ -1,0 +1,110 @@
+<!-- src/app/components/auth/login/login.component.html -->
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Login to Your Account</h2>
+    </div>
+
+    <div class="auth-body">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Error message -->
+        <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+        <!-- Success message -->
+        <div *ngIf="successMessage" class="alert alert-success">
+          {{ successMessage }}
+        </div>
+
+        <!-- Customer ID field -->
+        <div class="form-group">
+          <label for="customerId" class="form-label">Customer ID</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><mat-icon>person</mat-icon></span>
+            </div>
+            <input
+              type="text"
+              formControlName="customerId"
+              id="customerId"
+              class="form-control"
+              [ngClass]="{
+                'form-control-error': submitted && f['customerId'].errors
+              }"
+              placeholder="Enter your Customer ID"
+            />
+          </div>
+          <div
+            *ngIf="submitted && f['customerId'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['customerId'].errors['required']">
+              Customer ID is required
+            </div>
+          </div>
+        </div>
+
+        <!-- PIN field -->
+        <div class="form-group">
+          <label for="pin" class="form-label">PIN</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><mat-icon>lock</mat-icon></span>
+            </div>
+            <input
+              [type]="showPin ? 'text' : 'password'"
+              formControlName="pin"
+              id="pin"
+              class="form-control"
+              [ngClass]="{ 'form-control-error': submitted && f['pin'].errors }"
+              placeholder="Enter your PIN"
+              maxlength="4"
+            />
+            <div class="input-group-append">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="togglePinVisibility()"
+              >
+                <mat-icon>{{
+                  showPin ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="submitted && f['pin'].errors" class="invalid-feedback">
+            <div *ngIf="f['pin'].errors['required']">PIN is required</div>
+            <div *ngIf="f['pin'].errors['pattern']">
+              PIN must be a 4-digit number
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <div class="auth-actions">
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            [disabled]="loading"
+          >
+            <span *ngIf="loading" class="spinner spinner-sm mr-2"></span>
+            <span>Login</span>
+          </button>
+        </div>
+      </form>
+
+      <div class="auth-alternate">
+        <p>Don't have an account? <a routerLink="/register">Register</a></p>
+      </div>
+
+      <div class="auth-info">
+        <div class="info-card">
+          <mat-icon class="info-icon">info</mat-icon>
+          <p>
+            You should have received your Customer ID and PIN via email after
+            registration.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
