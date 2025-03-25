@@ -12,8 +12,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthInterceptor } from './Interceptors/auth.interceptor';
+import { DepositComponent } from './deposit/deposit.component';
+import { WithdrawComponent } from './withdraw/withdraw.component';
+import { TransferComponent } from './transfer/transfer.component';
+import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, HomeComponent, LoginComponent, DashboardComponent],
+  declarations: [AppComponent, RegisterComponent, HomeComponent, LoginComponent, DashboardComponent, DepositComponent, WithdrawComponent, TransferComponent, TransactionHistoryComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

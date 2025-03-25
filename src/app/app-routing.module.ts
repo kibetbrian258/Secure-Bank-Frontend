@@ -1,4 +1,3 @@
-// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
@@ -6,6 +5,10 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './Guards/auth.guard';
 import { HomeComponent } from './home/home.component';
+import { DepositComponent } from './deposit/deposit.component';
+import { WithdrawComponent } from './withdraw/withdraw.component';
+import { TransferComponent } from './transfer/transfer.component';
+import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,27 +21,27 @@ const routes: Routes = [
   },
   {
     path: 'deposit',
-    component: DashboardComponent,
+    component: DepositComponent,
     canActivate: [AuthGuard],
   },
   {
     path: 'withdraw',
-    component: DashboardComponent,
+    component: WithdrawComponent,
     canActivate: [AuthGuard],
   },
   {
     path: 'transfer',
-    component: DashboardComponent,
+    component: TransferComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'search-transactions',
-    component: DashboardComponent,
+    path: 'transactions',
+    component: TransactionHistoryComponent,
     canActivate: [AuthGuard],
   },
   {
     path: 'transactions/:accountNumber',
-    component: DashboardComponent,
+    component: TransactionHistoryComponent,
     canActivate: [AuthGuard],
   },
   // Default routes

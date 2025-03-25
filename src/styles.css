@@ -382,5 +382,499 @@ body {
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* 888888888888888888888888888888888888888888888888888888888 */
+
+/* src/app/components/transactions/transaction-common.css - Include this in your project's assets */
+
+/* Transaction Container */
+.transaction-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.transaction-card {
+  width: 100%;
+  max-width: 900px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Header */
+.transaction-header {
+  padding: 20px;
+  background-color: #4285f4; /* Changed from #2b4c7e to Google Blue */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transaction-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.back-btn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Form Body */
+.transaction-body {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-control-error {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+/* Account Details */
+.account-details {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-item .label {
+  font-weight: 600;
+  color: #495057;
+}
+
+.detail-item .value {
+  font-weight: 500;
+  color: #212529;
+}
+
+/* Form Actions */
+.form-actions {
+  margin-top: 30px;
+}
+
+.btn {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #4285f4; /* Changed from #2b4c7e to Google Blue */
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #3367d6; /* Darker shade of Google Blue */
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Feedback Messages */
+.alert {
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.success-message {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: #d4edda;
+  color: #155724;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.success-message mat-icon {
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+}
+
+.message-content h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.message-content p {
+  margin: 5px 0;
+}
+
+/* Info Panel */
+.info-panel {
+  background-color: #e8f0fe; /* Light Google Blue background */
+  border: 1px solid #4285f4; /* Google Blue border */
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 30px;
+}
+
+.info-panel h4 {
+  margin-top: 0;
+  color: #4285f4; /* Google Blue text */
+}
+
+.info-panel ul {
+  margin: 10px 0 0;
+  padding-left: 25px;
+}
+
+.info-panel li {
+  margin-bottom: 5px;
+  color: #4285f4; /* Google Blue text */
+}
+
+/* Loading State */
+.loading-accounts {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #6c757d;
+}
+
+.spinner-sm {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #4285f4; /* Changed to Google Blue */
+  animation: spin 1s linear infinite;
+}
+
+/* Transaction History Specific Styles */
+.account-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.failed {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-badge.inactive {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+/* Search Section */
+.search-section {
+  margin-bottom: 20px;
+}
+
+.toggle-search-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #e8f0fe; /* Light Google Blue */
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 15px;
+  color: #4285f4; /* Google Blue text */
+}
+
+.toggle-search-btn:hover {
+  background-color: #d2e3fc; /* Slightly darker light Google Blue */
+}
+
+.search-form {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.search-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.search-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.search-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* Transaction Table */
+.transaction-table {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+}
+
+tr:hover {
+  background-color: #f8f9fa;
+}
+
+.destination-account {
+  display: block;
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 3px;
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 30px;
+  color: #6c757d;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.page-info {
+  color: #6c757d;
+}
+
+.page-btn {
+  background: none;
+  border: 1px solid #4285f4; /* Google Blue border */
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #4285f4; /* Google Blue text */
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: #e8f0fe; /* Light Google Blue */
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-btn mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+.result-count {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: normal;
+}
+
+/* Loading Container */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #4285f4; /* Changed to Google Blue */
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .transaction-card {
+    margin: 0;
+    border-radius: 0;
+    min-height: 100vh;
+  }
+
+  .search-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .account-summary {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  th,
+  td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+
+  .transaction-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .back-btn {
+    margin-top: 10px;
+  }
+}
