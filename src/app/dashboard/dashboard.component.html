@@ -1,1 +1,143 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="header">
+    <button class="mobile-menu-btn" (click)="toggleSidebar()">☰</button>
+    <div class="customer-name">{{ customerName }}</div>
+    <div class="title">Dashboard</div>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </header>
+
+  <div class="content-container">
+    <!-- Sidebar Navigation -->
+    <div
+      class="sidebar"
+      [ngClass]="{ show: sidebarOpen, mobile: isMobileView }"
+    >
+      <button class="sidebar-close-btn" (click)="toggleSidebar()">✕</button>
+
+      <div class="nav-section">
+        <div class="nav-item active">Dashboard</div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-item">Account Information</div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-item">Transaction Management</div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-item">Help & Support</div>
+      </div>
+    </div>
+
+    <!-- Sidebar Overlay (for mobile) -->
+    <div
+      class="sidebar-overlay"
+      [ngClass]="{ show: sidebarOpen }"
+      (click)="closeSidebar()"
+    ></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Loading Indicator -->
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading your account information...</p>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error" class="error-message">
+        <p>{{ error }}</p>
+        <button (click)="loadUserData()">Try Again</button>
+      </div>
+
+      <!-- Dashboard Content (Only shown when loaded) -->
+      <div *ngIf="!loading && !error">
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+          <h2>Quick Actions</h2>
+          <div class="action-buttons">
+            <button class="action-btn deposit" (click)="onDeposit()">
+              Deposit
+            </button>
+            <button class="action-btn withdraw" (click)="onWithdraw()">
+              Withdraw
+            </button>
+            <button class="action-btn transfer" (click)="onTransfer()">
+              Transfer
+            </button>
+            <button class="action-btn search" (click)="onSearch()">Search</button>
+          </div>
+        </section>
+
+        <!-- Account Summary -->
+        <section class="account-summary">
+          <h2>Account Summary</h2>
+          <div class="summary-container">
+            <div class="summary-row">
+              <div class="summary-item">
+                <div class="label">Customer ID:</div>
+                <div class="value">{{ accountSummary.customerId }}</div>
+              </div>
+              <div class="summary-item">
+                <div class="label">Last Login:</div>
+                <div class="value">{{ accountSummary.lastLogin }}</div>
+              </div>
+            </div>
+            <div class="summary-row">
+              <div class="summary-item">
+                <div class="label">Account No:</div>
+                <div class="value">{{ accountSummary.accountNumber }}</div>
+              </div>
+              <div class="summary-item">
+                <div class="label">Account Status:</div>
+                <div class="value status-active">{{ accountSummary.status }}</div>
+              </div>
+            </div>
+            <div class="summary-row balance-row">
+              <div class="summary-item">
+                <div class="label">Current Bal:</div>
+                <div class="value balance">{{ accountSummary.balance }}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Mini Statement -->
+        <section class="mini-statement">
+          <h2>Recent Transactions</h2>
+          <div class="transaction-table">
+            <table *ngIf="transactions.length > 0">
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Date/Time</th>
+                  <th>Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transaction of transactions">
+                  <td>{{ transaction.transactionId }}</td>
+                  <td>{{ transaction.type }}</td>
+                  <td>{{ transaction.formattedAmount }}</td>
+                  <td>{{ transaction.formattedDateTime }}</td>
+                  <td>{{ transaction.formattedBalance }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="transactions.length === 0" class="no-transactions">
+              <p>No recent transactions found for this account.</p>
+            </div>
+            <button class="view-all-btn" (click)="viewAllTransactions()">
+              View the Last 10 Transactions
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

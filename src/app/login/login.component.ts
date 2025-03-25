@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
 
     const loginRequest = {
-      customerId: this.f['customerId'].value,
+      customerId: this.f['customerId'].value.trim(),
       pin: this.f['pin'].value,
     };
 

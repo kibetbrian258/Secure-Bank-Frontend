@@ -6,11 +6,12 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthInterceptor } from './Interceptors/auth.interceptor';
 @NgModule({
   declarations: [AppComponent, RegisterComponent, HomeComponent, LoginComponent, DashboardComponent],
   imports: [
@@ -22,7 +23,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BrowserAnimationsModule,
     MatIconModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

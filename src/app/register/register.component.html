@@ -1,97 +1,120 @@
-<!-- src/app/components/auth/register/register.component.html -->
 <div class="auth-container">
-    <div class="auth-card">
-      <div class="auth-header">
-        <h2>Create Your Secure Bank Account</h2>
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Create Your Secure Bank Account</h2>
+    </div>
+
+    <!-- Registration success message -->
+    <div *ngIf="registrationSuccess" class="auth-body">
+      <div class="alert alert-success">
+        <h3>Registration Successful!</h3>
+        <p>Your account has been created successfully!</p>
       </div>
-      
-      <!-- Registration success message -->
-      <div *ngIf="registrationSuccess" class="auth-body">
-        <div class="alert alert-success">
-          <h3>Registration Successful!</h3>
-          <p>Your account has been created. Please save these important credentials:</p>
-        </div>
-        
-        <div class="credentials-box">
-          <div class="credential-item">
-            <span class="credential-label">Customer ID</span>
-            <span class="credential-value">{{ registrationResult?.customerId }}</span>
+
+      <div class="auth-message">
+        <p>
+          We've sent an email to
+          <strong>{{ registrationResult?.email }}</strong> with your secure
+          login credentials.
+        </p>
+        <p>
+          Please check your inbox for an email from Secure Bank containing your:
+        </p>
+        <ul style="text-align: left; padding-left: 30px; margin: 15px 0">
+          <li>Customer ID</li>
+          <li>Secure PIN</li>
+          <li>Account Number</li>
+        </ul>
+        <p>
+          You'll need your <strong>Customer ID</strong> and
+          <strong>PIN</strong> to log in.
+        </p>
+        <p>
+          If you don't see the email, please check your spam or junk folder.
+        </p>
+      </div>
+
+      <div class="auth-actions">
+        <button
+          type="button"
+          class="btn btn-primary btn-block"
+          (click)="navigateToLogin()"
+        >
+          Continue to Login
+        </button>
+      </div>
+    </div>
+
+    <!-- Registration form (unchanged) -->
+    <div *ngIf="!registrationSuccess" class="auth-body">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Error message -->
+        <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+        <!-- Full Name field -->
+        <div class="form-group">
+          <label for="fullName" class="form-label">Full Name</label>
+          <input
+            type="text"
+            formControlName="fullName"
+            id="fullName"
+            class="form-control"
+            [ngClass]="{
+              'form-control-error': submitted && f['fullName'].errors
+            }"
+            autocomplete="name"
+          />
+          <div
+            *ngIf="submitted && f['fullName'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['fullName'].errors['required']">
+              Full name is required
+            </div>
+            <div *ngIf="f['fullName'].errors['minlength']">
+              Full name must be at least 2 characters
+            </div>
+            <div *ngIf="f['fullName'].errors['maxlength']">
+              Full name must not exceed 100 characters
+            </div>
           </div>
-          <div class="credential-item">
-            <span class="credential-label">PIN</span>
-            <span class="credential-value">{{ registrationResult?.pin }}</span>
-          </div>
-          <div class="credential-item">
-            <span class="credential-label">Account Number</span>
-            <span class="credential-value">{{ registrationResult?.accountNumber }}</span>
+        </div>
+
+        <!-- Email field -->
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input
+            type="email"
+            formControlName="email"
+            id="email"
+            class="form-control"
+            [ngClass]="{ 'form-control-error': submitted && f['email'].errors }"
+            autocomplete="email"
+          />
+          <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+            <div *ngIf="f['email'].errors['required']">Email is required</div>
+            <div *ngIf="f['email'].errors['email']">
+              Enter a valid email address
+            </div>
           </div>
         </div>
-        
-        <div class="auth-message">
-          <p>You'll need your <strong>Customer ID</strong> and <strong>PIN</strong> to log in.</p>
-          <p>Please store this information in a secure place.</p>
-        </div>
-        
+
+        <!-- Submit button -->
         <div class="auth-actions">
-          <button type="button" class="btn btn-primary btn-block" (click)="navigateToLogin()">
-            Continue to Login
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            [disabled]="loading"
+          >
+            <span *ngIf="loading" class="spinner spinner-sm mr-2"></span>
+            <span>Register</span>
           </button>
         </div>
-      </div>
-  
-      <!-- Registration form -->
-      <div *ngIf="!registrationSuccess" class="auth-body">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <!-- Error message -->
-          <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-  
-          <!-- Full Name field -->
-          <div class="form-group">
-            <label for="fullName" class="form-label">Full Name</label>
-            <input
-              type="text"
-              formControlName="fullName"
-              id="fullName"
-              class="form-control"
-              [ngClass]="{ 'form-control-error': submitted && f['fullName'].errors }"
-              autocomplete="name"
-            />
-            <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
-              <div *ngIf="f['fullName'].errors['required']">Full name is required</div>
-              <div *ngIf="f['fullName'].errors['minlength']">Full name must be at least 2 characters</div>
-              <div *ngIf="f['fullName'].errors['maxlength']">Full name must not exceed 100 characters</div>
-            </div>
-          </div>
-  
-          <!-- Email field -->
-          <div class="form-group">
-            <label for="email" class="form-label">Email Address</label>
-            <input
-              type="email"
-              formControlName="email"
-              id="email"
-              class="form-control"
-              [ngClass]="{ 'form-control-error': submitted && f['email'].errors }"
-              autocomplete="email"
-            />
-            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-              <div *ngIf="f['email'].errors['required']">Email is required</div>
-              <div *ngIf="f['email'].errors['email']">Enter a valid email address</div>
-            </div>
-          </div>
-  
-          <!-- Submit button -->
-          <div class="auth-actions">
-            <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">
-              <span *ngIf="loading" class="spinner spinner-sm mr-2"></span>
-              <span>Register</span>
-            </button>
-          </div>
-        </form>
-        
-        <div class="auth-alternate">
-          <p>Already have an account? <a routerLink="/login">Log In</a></p>
-        </div>
+      </form>
+
+      <div class="auth-alternate">
+        <p>Already have an account? <a routerLink="/login">Log In</a></p>
       </div>
     </div>
   </div>
+</div>

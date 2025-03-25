@@ -1,4 +1,4 @@
-export interface Account {
+export interface AccountResponse {
   id: number;
   accountNumber: string;
   customerId: string;
