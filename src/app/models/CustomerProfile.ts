@@ -4,6 +4,7 @@ export interface CustomerProfile {
   email: string;
   address: string;
   phoneNumber: string;
+  dateOfBirth: string;
   registrationDate: Date;
   lastLogin: Date;
 }

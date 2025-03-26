@@ -16,8 +16,9 @@ import { DepositComponent } from './deposit/deposit.component';
 import { WithdrawComponent } from './withdraw/withdraw.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
+import { AccountInformationComponent } from './account-information/account-information.component';
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, HomeComponent, LoginComponent, DashboardComponent, DepositComponent, WithdrawComponent, TransferComponent, TransactionHistoryComponent],
+  declarations: [AppComponent, RegisterComponent, HomeComponent, LoginComponent, DashboardComponent, DepositComponent, WithdrawComponent, TransferComponent, TransactionHistoryComponent, AccountInformationComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

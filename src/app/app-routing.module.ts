@@ -9,6 +9,7 @@ import { DepositComponent } from './deposit/deposit.component';
 import { WithdrawComponent } from './withdraw/withdraw.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
+import { AccountInformationComponent } from './account-information/account-information.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -42,6 +43,11 @@ const routes: Routes = [
   {
     path: 'transactions/:accountNumber',
     component: TransactionHistoryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'account-information',
+    component: AccountInformationComponent,
     canActivate: [AuthGuard],
   },
   // Default routes

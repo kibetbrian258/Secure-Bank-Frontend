@@ -16,19 +16,27 @@
       <button class="sidebar-close-btn" (click)="toggleSidebar()">✕</button>
 
       <div class="nav-section">
-        <div class="nav-item active">Dashboard</div>
+        <div class="nav-item" 
+             [class.active]="currentPage === 'dashboard'"
+             (click)="navigateTo('dashboard')">Dashboard</div>
       </div>
 
       <div class="nav-section">
-        <div class="nav-item">Account Information</div>
+        <div class="nav-item" 
+             [class.active]="currentPage === 'account-information'"
+             (click)="navigateTo('account-information')">Account Information</div>
       </div>
 
       <div class="nav-section">
-        <div class="nav-item">Transaction Management</div>
+        <div class="nav-item" 
+             [class.active]="currentPage === 'transactions'"
+             (click)="navigateTo('transactions')">Transaction Management</div>
       </div>
 
       <div class="nav-section">
-        <div class="nav-item">Help & Support</div>
+        <div class="nav-item" 
+             [class.active]="currentPage === 'help'"
+             (click)="navigateTo('help')">Help & Support</div>
       </div>
     </div>
 

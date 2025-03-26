@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <!-- Registration form (unchanged) -->
+    <!-- Registration form (updated with new fields) -->
     <div *ngIf="!registrationSuccess" class="auth-body">
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <!-- Error message -->
@@ -95,6 +95,97 @@
             <div *ngIf="f['email'].errors['required']">Email is required</div>
             <div *ngIf="f['email'].errors['email']">
               Enter a valid email address
+            </div>
+          </div>
+        </div>
+
+        <!-- Date of Birth field -->
+        <div class="form-group">
+          <label for="dateOfBirth" class="form-label">Date of Birth</label>
+          <input
+            type="date"
+            formControlName="dateOfBirth"
+            id="dateOfBirth"
+            class="form-control"
+            [ngClass]="{
+              'form-control-error': submitted && f['dateOfBirth'].errors
+            }"
+          />
+          <div
+            *ngIf="submitted && f['dateOfBirth'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['dateOfBirth'].errors['required']">
+              Date of birth is required
+            </div>
+            <div *ngIf="f['dateOfBirth'].errors['ageRestriction']">
+              You must be at least 18 years old to register
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone Number field with country selector -->
+        <div class="form-group">
+          <label for="phoneNumber" class="form-label">Phone Number</label>
+          <div class="phone-input-container">
+            <select 
+              formControlName="country" 
+              class="country-select"
+              (change)="onCountryChange()"
+            >
+              <option value="">Select Country</option>
+              <option *ngFor="let country of eastAfricanCountries" [value]="country.code">
+                {{ country.name }} ({{ country.code }})
+              </option>
+            </select>
+            <input
+              type="tel"
+              formControlName="phoneNumber"
+              id="phoneNumber"
+              class="form-control phone-input"
+              [ngClass]="{
+                'form-control-error': submitted && f['phoneNumber'].errors
+              }"
+              autocomplete="tel"
+              placeholder="9XXXXXXXX"
+            />
+          </div>
+          <small class="form-text text-muted">Enter number without leading zeros</small>
+          <div
+            *ngIf="submitted && f['phoneNumber'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['phoneNumber'].errors['required']">
+              Phone number is required
+            </div>
+            <div *ngIf="f['phoneNumber'].errors['pattern']">
+              Enter a valid phone number without country code
+            </div>
+          </div>
+        </div>
+
+        <!-- Address field -->
+        <div class="form-group">
+          <label for="address" class="form-label">Address</label>
+          <textarea
+            formControlName="address"
+            id="address"
+            class="form-control"
+            [ngClass]="{
+              'form-control-error': submitted && f['address'].errors
+            }"
+            rows="3"
+            autocomplete="street-address"
+          ></textarea>
+          <div
+            *ngIf="submitted && f['address'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['address'].errors['required']">
+              Address is required
+            </div>
+            <div *ngIf="f['address'].errors['minlength']">
+              Address must be at least 5 characters
             </div>
           </div>
         </div>

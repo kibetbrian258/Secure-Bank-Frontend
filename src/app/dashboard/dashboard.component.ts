@@ -28,6 +28,9 @@ export class DashboardComponent implements OnInit {
   primaryAccount: AccountResponse | null = null;
   loading = true;
   error = '';
+  
+  // Navigation tracking
+  currentPage: string = 'dashboard';
 
   // Responsive design properties
   sidebarOpen: boolean = false;
@@ -43,6 +46,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.checkScreenSize();
     this.loadUserData();
+    
+    // Check the current route to set the active nav item
+    const currentUrl = this.router.url;
+    if (currentUrl.includes('account-information')) {
+      this.currentPage = 'account-information';
+    }
   }
 
   // Load all user data
@@ -173,6 +182,29 @@ export class DashboardComponent implements OnInit {
   closeSidebar(): void {
     this.sidebarOpen = false;
     document.body.style.overflow = '';
+  }
+  
+  // Navigation function
+  navigateTo(page: string): void {
+    this.currentPage = page;
+    this.closeSidebar();
+    
+    switch (page) {
+      case 'dashboard':
+        this.router.navigate(['/dashboard']);
+        break;
+      case 'account-information':
+        this.router.navigate(['/account-information']);
+        break;
+      case 'transactions':
+        this.router.navigate(['/transactions']);
+        break;
+      case 'help':
+        this.router.navigate(['/help']);
+        break;
+      default:
+        this.router.navigate(['/dashboard']);
+    }
   }
 
   onDeposit(): void {
