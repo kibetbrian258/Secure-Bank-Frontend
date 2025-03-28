@@ -1,0 +1,289 @@
+.guide-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+}
+
+.page-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.page-header h1 {
+  color: #4285f4;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #555;
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.back-navigation {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  color: #4285f4;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.back-button:hover {
+  color: #2a56c6;
+}
+
+.back-button i {
+  margin-right: 8px;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section h2 {
+  color: #4285f4;
+  border-bottom: 2px solid #4285f4;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  margin-bottom: 25px;
+}
+
+.card h3 {
+  color: #4285f4;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.card h4 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.card p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.card ul,
+.card ol {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.card li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+/* Account Types */
+.account-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.account-type {
+  display: flex;
+  flex: 1;
+  min-width: 300px;
+  align-items: flex-start;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.account-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.account-icon.savings {
+  background-color: rgba(66, 133, 244, 0.1);
+  color: #4285f4;
+}
+
+.account-icon.checking {
+  background-color: rgba(234, 67, 53, 0.1);
+  color: #ea4335;
+}
+
+.account-icon i {
+  font-size: 24px;
+}
+
+.account-details {
+  flex-grow: 1;
+}
+
+.account-details ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+/* Feature Grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 12px 15px;
+  border-radius: 6px;
+}
+
+.feature i {
+  color: #4285f4;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Resources Grid */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.resource-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.resource-card i {
+  font-size: 36px;
+  color: #4285f4;
+  margin-bottom: 15px;
+}
+
+.resource-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #4285f4;
+}
+
+.resource-card p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.resource-link {
+  display: inline-block;
+  color: white;
+  background-color: #4285f4;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.resource-link:hover {
+  background-color: #2a56c6;
+}
+
+/* Tip Box */
+.tip-box {
+  background-color: rgba(66, 133, 244, 0.1);
+  border-left: 4px solid #4285f4;
+  padding: 15px;
+  margin: 20px 0;
+  display: flex;
+  align-items: flex-start;
+}
+
+.tip-box i {
+  color: #4285f4;
+  font-size: 20px;
+  margin-right: 15px;
+  margin-top: 2px;
+}
+
+.tip-box p {
+  margin: 0;
+}
+
+/* Support Footer */
+.support-footer {
+  margin-top: 50px;
+  padding: 25px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.support-footer p {
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.contact-method {
+  display: flex;
+  align-items: center;
+}
+
+.contact-method i {
+  color: #4285f4;
+  margin-right: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .account-types {
+    flex-direction: column;
+  }
+
+  .account-type {
+    min-width: auto;
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}

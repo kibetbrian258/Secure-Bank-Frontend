@@ -1,0 +1,150 @@
+<div class="help-support-container">
+  <div class="page-title">
+    <h2>Help & Support</h2>
+    <p class="subtitle">
+      We're here to assist you with any questions or concerns
+    </p>
+  </div>
+
+  <!-- Support Request Card -->
+  <div class="support-card">
+    <div class="card-header">
+      <h3>How can we help you today?</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="supportForm" (ngSubmit)="submitSupportMessage()">
+        <div class="form-group">
+          <textarea
+            formControlName="message"
+            placeholder="Describe your issue or question here..."
+            class="form-control"
+            rows="4"
+          ></textarea>
+          <div
+            class="validation-error"
+            *ngIf="
+              supportForm.get('message')?.invalid &&
+              supportForm.get('message')?.touched
+            "
+          >
+            Please provide a detailed description (at least 10 characters).
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="supportForm.invalid"
+        >
+          <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+      </form>
+      <div class="alert alert-success" *ngIf="messageSent">
+        <i class="fas fa-check-circle"></i> Your message has been sent! Our
+        support team will respond within 24 hours.
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Information -->
+  <div class="contact-info-section">
+    <h3>Contact Information:</h3>
+    <div class="contact-cards">
+      <div class="contact-card phone">
+        <div class="icon">
+          <i class="fas fa-phone-alt"></i>
+        </div>
+        <div class="contact-details">
+          <span class="label">Phone Support:</span>
+          <span class="value">+(254)-98-466-352</span>
+        </div>
+      </div>
+
+      <div class="contact-card email">
+        <div class="icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="contact-details">
+          <span class="label">Email:</span>
+          <span class="value">banking@info.org</span>
+        </div>
+      </div>
+
+      <div class="contact-card address">
+        <div class="icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div class="contact-details">
+          <span class="label">Main Branch:</span>
+          <span class="value">123 Main Street, Nairobi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operating Hours -->
+  <div class="operating-hours">
+    <h3>Operating Hours</h3>
+    <div class="hours-grid">
+      <div class="day">
+        <span class="day-name">Monday - Friday:</span>
+        <span class="hours">8:00 AM - 6:00 PM</span>
+      </div>
+      <div class="day">
+        <span class="day-name">Saturday:</span>
+        <span class="hours">9:00 AM - 3:00 PM</span>
+      </div>
+      <div class="day">
+        <span class="day-name">Sunday & Holidays:</span>
+        <span class="hours">Closed</span>
+      </div>
+    </div>
+    <div class="note">
+      <i class="fas fa-info-circle"></i> 24/7 phone support available for
+      emergencies and lost/stolen cards.
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq-section">
+    <h3>Frequently Asked Questions</h3>
+    <div class="faq-list">
+      <div class="faq-item" *ngFor="let faq of faqItems; let i = index">
+        <div
+          class="faq-question"
+          (click)="toggleFaq(i)"
+          [class.active]="expandedFaq === i"
+        >
+          {{ faq.question }}
+          <span class="faq-toggle">
+            <i
+              class="fas"
+              [ngClass]="expandedFaq === i ? 'fa-minus' : 'fa-plus'"
+            ></i>
+          </span>
+        </div>
+        <div class="faq-answer" [class.expanded]="expandedFaq === i">
+          {{ faq.answer }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Resources -->
+  <div class="resources-section">
+    <h3>Additional Resources</h3>
+    <div class="resources-grid">
+      <a routerLink="/banking-guide" class="resource-card">
+        <i class="fas fa-book"></i>
+        <span>Banking Guide</span>
+      </a>
+      <a routerLink="/security-tips" class="resource-card">
+        <i class="fas fa-shield-alt"></i>
+        <span>Security Tips</span>
+      </a>
+      <a routerLink="/terms-conditions" class="resource-card">
+        <i class="fas fa-file-alt"></i>
+        <span>Terms & Conditions</span>
+      </a>
+    </div>
+  </div>
+</div>

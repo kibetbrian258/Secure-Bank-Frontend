@@ -1,6 +1,5 @@
-// src/app/Services/account.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../Environments/environment';
@@ -32,5 +31,21 @@ export class AccountService {
           return throwError(() => error);
         })
       );
+  }
+
+  // Create a new account
+  createAccount(accountType: string): Observable<AccountResponse> {
+    const url = `${this.apiUrl}/create`;
+
+    // Create request body with account type
+    const newAccountRequest = {
+      accountType: accountType,
+    };
+
+    return this.http.post<AccountResponse>(url, newAccountRequest).pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    );
   }
 }

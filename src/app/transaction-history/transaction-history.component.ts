@@ -1,4 +1,3 @@
-// src/app/components/transactions/transaction-history/transaction-history.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -32,9 +31,6 @@ export class TransactionHistoryComponent implements OnInit {
   totalItems = 0;
   totalPages = 0;
 
-  // Display mode
-  viewMode: 'recent' | 'search' = 'recent';
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -44,14 +40,11 @@ export class TransactionHistoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Initialize search form
+    // Initialize search form with simplified fields
     this.searchForm = this.formBuilder.group({
       accountNumber: [''],
       type: [''],
-      startDate: [''],
-      endDate: [''],
-      minAmount: [''],
-      maxAmount: [''],
+      date: [''],
     });
 
     // Get account number from route params
@@ -77,7 +70,8 @@ export class TransactionHistoryComponent implements OnInit {
         this.loadRecentTransactions();
       },
       error: (error) => {
-        this.error = 'Could not load account details. Please try again.';
+        console.error('Account details error:', error);
+        this.error = error.error?.message || 'Could not load account details. Please try again.';
         this.loading = false;
       },
     });
@@ -99,7 +93,8 @@ export class TransactionHistoryComponent implements OnInit {
         this.loadRecentTransactions();
       },
       error: (error) => {
-        this.error = 'Could not load accounts. Please try again.';
+        console.error('Load accounts error:', error);
+        this.error = error.error?.message || 'Could not load accounts. Please try again.';
         this.loading = false;
       },
     });
@@ -112,8 +107,8 @@ export class TransactionHistoryComponent implements OnInit {
       return;
     }
 
-    this.viewMode = 'recent';
     this.loading = true;
+    this.error = '';
 
     this.transactionService
       .getRecentTransactions(this.accountNumber)
@@ -123,7 +118,8 @@ export class TransactionHistoryComponent implements OnInit {
           this.loading = false;
         },
         error: (error) => {
-          this.error = 'Could not load transactions. Please try again.';
+          console.error('Load transactions error:', error);
+          this.error = error.error?.message || 'Could not load transactions. Please try again.';
           this.loading = false;
         },
       });
@@ -131,22 +127,42 @@ export class TransactionHistoryComponent implements OnInit {
 
   // Search transactions with pagination
   searchTransactions(page: number = 0): void {
-    this.viewMode = 'search';
     this.searching = true;
+    this.error = '';
     this.currentPage = page;
 
-    const searchRequest: TransactionSearchRequest = {
-      accountNumber: this.searchForm.value.accountNumber || undefined,
-      type: this.searchForm.value.type || undefined,
-      startDate: this.searchForm.value.startDate || undefined,
-      endDate: this.searchForm.value.endDate || undefined,
-      minAmount: this.searchForm.value.minAmount
-        ? parseFloat(this.searchForm.value.minAmount)
-        : undefined,
-      maxAmount: this.searchForm.value.maxAmount
-        ? parseFloat(this.searchForm.value.maxAmount)
-        : undefined,
-    };
+    // Create a date range if date is provided (for the whole day)
+    let startDate;
+    let endDate;
+
+    if (this.searchForm.value.date) {
+      // Set start date to beginning of the day
+      startDate = new Date(this.searchForm.value.date);
+      startDate.setHours(0, 0, 0, 0);
+
+      // Set end date to end of the day
+      endDate = new Date(this.searchForm.value.date);
+      endDate.setHours(23, 59, 59, 999);
+    }
+
+    // Only include non-empty values in the search request
+    const searchRequest: TransactionSearchRequest = {};
+    
+    if (this.searchForm.value.accountNumber && this.searchForm.value.accountNumber.trim() !== '') {
+      searchRequest.accountNumber = this.searchForm.value.accountNumber;
+    }
+    
+    if (this.searchForm.value.type && this.searchForm.value.type.trim() !== '') {
+      searchRequest.type = this.searchForm.value.type;
+    }
+    
+    if (startDate) {
+      searchRequest.startDate = startDate.toISOString();
+    }
+    
+    if (endDate) {
+      searchRequest.endDate = endDate.toISOString();
+    }
 
     this.transactionService
       .searchTransactionsPaginated(searchRequest, page, this.pageSize)
@@ -159,7 +175,8 @@ export class TransactionHistoryComponent implements OnInit {
           this.searching = false;
         },
         error: (error) => {
-          this.error = 'Search failed. Please try again.';
+          console.error('Search error:', error);
+          this.error = error.error?.message || 'Search failed. Please try again.';
           this.searching = false;
         },
       });
@@ -179,9 +196,24 @@ export class TransactionHistoryComponent implements OnInit {
     }));
   }
 
+  // Check if the search form has at least one valid search criteria
+  isValidSearch(): boolean {
+    const values = this.searchForm.value;
+    return !!(
+      (values.accountNumber && values.accountNumber.trim() !== '') || 
+      (values.type && values.type.trim() !== '') || 
+      values.date
+    );
+  }
+
   // Handle search form submission
   onSearch(): void {
-    this.searchTransactions(0); // Start at first page when performing a new search
+    if (this.isValidSearch()) {
+      this.searchTransactions(0); // Start at first page when performing a new search
+    } else {
+      // If no valid search criteria, load recent transactions instead
+      this.loadRecentTransactions();
+    }
   }
 
   // Reset search form
@@ -222,15 +254,13 @@ export class TransactionHistoryComponent implements OnInit {
     this.router.navigate(['/dashboard']);
   }
 
-  // Check if search form has any values
+  // Check if search form has any values - used for UI display
   hasSearchValues(): boolean {
     const values = this.searchForm.value;
-    return (
-      values.type ||
-      values.startDate ||
-      values.endDate ||
-      values.minAmount ||
-      values.maxAmount
+    return !!(
+      (values.accountNumber && values.accountNumber.trim() !== '') || 
+      (values.type && values.type.trim() !== '') || 
+      values.date
     );
   }
 }

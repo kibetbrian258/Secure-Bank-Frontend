@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../Services/auth.service';
 import { AccountService } from '../Services/account.service';
 import { TransactionService } from '../Services/transaction.service';
@@ -14,7 +14,6 @@ import { AccountResponse } from '../models/AccountResponse';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  customerName: string = '';
   accountSummary = {
     customerId: '',
     accountNumber: '',
@@ -26,15 +25,9 @@ export class DashboardComponent implements OnInit {
   transactions: TransactionResponse[] = [];
   accounts: AccountResponse[] = [];
   primaryAccount: AccountResponse | null = null;
+  selectedAccountIndex: number = 0;
   loading = true;
   error = '';
-  
-  // Navigation tracking
-  currentPage: string = 'dashboard';
-
-  // Responsive design properties
-  sidebarOpen: boolean = false;
-  isMobileView: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -44,14 +37,7 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.checkScreenSize();
     this.loadUserData();
-    
-    // Check the current route to set the active nav item
-    const currentUrl = this.router.url;
-    if (currentUrl.includes('account-information')) {
-      this.currentPage = 'account-information';
-    }
   }
 
   // Load all user data
@@ -61,7 +47,6 @@ export class DashboardComponent implements OnInit {
     // Fetch customer profile
     this.authService.getCustomerProfile().subscribe({
       next: (profile) => {
-        this.customerName = profile.fullName;
         this.accountSummary.customerId = profile.customerId;
 
         // Handle lastLogin regardless of whether it's a string or Date
@@ -92,12 +77,9 @@ export class DashboardComponent implements OnInit {
 
         // Use the first account as primary if available
         if (accounts.length > 0) {
-          this.primaryAccount = accounts[0];
-          this.accountSummary.accountNumber = this.primaryAccount.accountNumber;
-          this.accountSummary.balance = this.formatCurrency(
-            this.primaryAccount.balance
-          );
-          this.accountSummary.status = this.primaryAccount.status;
+          this.selectedAccountIndex = 0;
+          this.primaryAccount = accounts[this.selectedAccountIndex];
+          this.updateAccountSummary();
 
           // Now load transactions for this account
           this.loadTransactions(this.primaryAccount.accountNumber);
@@ -111,6 +93,26 @@ export class DashboardComponent implements OnInit {
         console.error('Accounts error:', error);
       },
     });
+  }
+
+  // Handle account selection change
+  onAccountChange(): void {
+    if (this.accounts.length > 0) {
+      this.primaryAccount = this.accounts[this.selectedAccountIndex];
+      this.updateAccountSummary();
+      this.loadTransactions(this.primaryAccount.accountNumber);
+    }
+  }
+
+  // Update account summary display
+  updateAccountSummary(): void {
+    if (this.primaryAccount) {
+      this.accountSummary.accountNumber = this.primaryAccount.accountNumber;
+      this.accountSummary.balance = this.formatCurrency(
+        this.primaryAccount.balance
+      );
+      this.accountSummary.status = this.primaryAccount.status;
+    }
   }
 
   // Load recent transactions
@@ -157,90 +159,28 @@ export class DashboardComponent implements OnInit {
     return formatDate(date, 'dd/MM/yy HH:mm', 'en-US');
   }
 
-  // Check screen size on init and window resize
-  @HostListener('window:resize', ['$event'])
-  checkScreenSize(): void {
-    this.isMobileView = window.innerWidth <= 768;
-    if (!this.isMobileView) {
-      this.sidebarOpen = false;
-    }
-  }
-
-  // Toggle sidebar on mobile
-  toggleSidebar(): void {
-    this.sidebarOpen = !this.sidebarOpen;
-
-    // Prevent scrolling when sidebar is open
-    if (this.sidebarOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }
-
-  // Close sidebar
-  closeSidebar(): void {
-    this.sidebarOpen = false;
-    document.body.style.overflow = '';
-  }
-  
-  // Navigation function
-  navigateTo(page: string): void {
-    this.currentPage = page;
-    this.closeSidebar();
-    
-    switch (page) {
-      case 'dashboard':
-        this.router.navigate(['/dashboard']);
-        break;
-      case 'account-information':
-        this.router.navigate(['/account-information']);
-        break;
-      case 'transactions':
-        this.router.navigate(['/transactions']);
-        break;
-      case 'help':
-        this.router.navigate(['/help']);
-        break;
-      default:
-        this.router.navigate(['/dashboard']);
-    }
-  }
-
   onDeposit(): void {
-    // Handle deposit action
     this.router.navigate(['/deposit']);
-    this.closeSidebar();
   }
 
   onWithdraw(): void {
-    // Handle withdrawal action
     this.router.navigate(['/withdraw']);
-    this.closeSidebar();
   }
 
   onTransfer(): void {
-    // Handle transfer action
     this.router.navigate(['/transfer']);
-    this.closeSidebar();
   }
 
   onSearch(): void {
-    // Handle search action
     this.router.navigate(['/transactions']);
-    this.closeSidebar();
   }
 
   viewAllTransactions(): void {
-    // Handle view all transactions
-    this.router.navigate(['/transactions', this.primaryAccount?.accountNumber]);
-    this.closeSidebar();
-  }
-
-  logout(): void {
-    // Handle logout
-    this.authService.logout();
-    this.router.navigate(['/login']);
-    this.closeSidebar();
+    if (this.primaryAccount) {
+      this.router.navigate([
+        '/transactions',
+        this.primaryAccount.accountNumber,
+      ]);
+    }
   }
 }

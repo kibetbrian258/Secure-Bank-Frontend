@@ -403,3 +403,33 @@ th {
     display: block;
   }
 }
+
+.account-selection {
+  margin-bottom: 20px;
+  background-color: #f0f6ff;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.selection-header {
+  margin-bottom: 10px;
+}
+
+.selection-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #4285f4;
+}
+
+.accounts-dropdown {
+  width: 100%;
+}
+
+.account-select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #b3d1ff;
+  background-color: white;
+  font-size: 14px;
+}

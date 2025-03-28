@@ -1,0 +1,376 @@
+.transaction-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.transaction-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.transaction-header {
+  background-color: #4285f4;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transaction-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.back-btn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.back-btn mat-icon {
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.transaction-body {
+  padding: 20px;
+}
+
+/* Loading and Error states */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #4285f4;
+  animation: spin 1s infinite linear;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.alert {
+  padding: 12px 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Account Summary */
+.account-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.value {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.inactive {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.failed {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Search Section */
+.search-section {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.search-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+.search-form {
+  background-color: white;
+  border-radius: 4px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 13px;
+  color: #555;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.search-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: #4285f4;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #3367d6;
+}
+
+.btn-primary:disabled {
+  background-color: #a2c3ff;
+}
+
+.btn-secondary {
+  background-color: #f1f3f4;
+  color: #3c4043;
+}
+
+.btn-secondary:hover {
+  background-color: #e8eaed;
+}
+
+.btn-secondary:disabled {
+  color: #80868b;
+  background-color: #f1f3f4;
+}
+
+/* Transaction Table Section */
+.transactions-section {
+  margin-top: 30px;
+}
+
+.transactions-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.result-count {
+  font-size: 14px;
+  color: #666;
+  margin-left: 10px;
+  font-weight: normal;
+}
+
+.transaction-table {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: #f1f3f4;
+}
+
+th {
+  text-align: left;
+  padding: 12px 15px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3c4043;
+}
+
+td {
+  padding: 12px 15px;
+  border-top: 1px solid #f1f3f4;
+  font-size: 14px;
+  color: #3c4043;
+}
+
+tr:hover {
+  background-color: #f8f9fa;
+}
+
+.destination-account {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-top: 3px;
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 30px;
+  color: #666;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.page-btn {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.page-btn:hover:not([disabled]) {
+  background-color: #f1f3f4;
+}
+
+.page-btn[disabled] {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .transaction-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .back-btn {
+    align-self: flex-start;
+  }
+
+  .form-group {
+    min-width: 100%;
+  }
+}
+
+.spinner-sm {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s infinite linear;
+}
+
+.mr-2 {
+  margin-right: 8px;
+}

@@ -1,0 +1,72 @@
+<div class="layout-container">
+  <!-- Header -->
+  <header class="header">
+    <button class="mobile-menu-btn" (click)="toggleSidebar()">☰</button>
+    <div class="title">Secure Bank</div>
+    <div class="header-spacer"></div>
+    <div class="customer-name">{{ customerName }}</div>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </header>
+
+  <div class="content-container">
+    <!-- Sidebar Navigation -->
+    <div
+      class="sidebar"
+      [ngClass]="{ show: sidebarOpen, mobile: isMobileView }"
+    >
+      <button class="sidebar-close-btn" (click)="toggleSidebar()">✕</button>
+
+      <div class="nav-section">
+        <div
+          class="nav-item"
+          [class.active]="currentPage === 'dashboard'"
+          (click)="navigateTo('dashboard')"
+        >
+          Dashboard
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div
+          class="nav-item"
+          [class.active]="currentPage === 'account-information'"
+          (click)="navigateTo('account-information')"
+        >
+          Account Information
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div
+          class="nav-item"
+          [class.active]="currentPage === 'transactions'"
+          (click)="navigateTo('transactions')"
+        >
+          Transaction Management
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div
+          class="nav-item"
+          [class.active]="currentPage === 'help'"
+          (click)="navigateTo('help')"
+        >
+          Help & Support
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Overlay (for mobile) -->
+    <div
+      class="sidebar-overlay"
+      [ngClass]="{ show: sidebarOpen }"
+      (click)="closeSidebar()"
+    ></div>
+
+    <!-- Main Content - Router Outlet -->
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

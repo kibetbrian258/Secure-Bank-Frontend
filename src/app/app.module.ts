@@ -17,8 +17,13 @@ import { WithdrawComponent } from './withdraw/withdraw.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { AccountInformationComponent } from './account-information/account-information.component';
+import { MainLayoutComponent } from './main-layout/main-layout.component';
+import { HelpSupportComponent } from './help-support/help-support.component';
+import { BankingGuideComponent } from './banking-guide/banking-guide.component';
+import { SecurityTipsComponent } from './security-tips/security-tips.component';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, HomeComponent, LoginComponent, DashboardComponent, DepositComponent, WithdrawComponent, TransferComponent, TransactionHistoryComponent, AccountInformationComponent],
+  declarations: [AppComponent, RegisterComponent, HomeComponent, LoginComponent, DashboardComponent, DepositComponent, WithdrawComponent, TransferComponent, TransactionHistoryComponent, AccountInformationComponent, MainLayoutComponent, HelpSupportComponent, BankingGuideComponent, SecurityTipsComponent, TermsConditionsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

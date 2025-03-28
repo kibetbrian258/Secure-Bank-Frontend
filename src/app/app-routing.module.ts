@@ -10,49 +10,46 @@ import { WithdrawComponent } from './withdraw/withdraw.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { AccountInformationComponent } from './account-information/account-information.component';
+import { MainLayoutComponent } from './main-layout/main-layout.component';
+import { HelpSupportComponent } from './help-support/help-support.component';
+import { BankingGuideComponent } from './banking-guide/banking-guide.component';
+import { SecurityTipsComponent } from './security-tips/security-tips.component';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 
 const routes: Routes = [
+  // Public routes (no auth required)
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'home', component: HomeComponent },
+
+  // Default redirect to home page
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+
+  // Protected routes (auth required)
   {
-    path: 'dashboard',
-    component: DashboardComponent,
+    path: '',
+    component: MainLayoutComponent,
     canActivate: [AuthGuard],
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'deposit', component: DepositComponent },
+      { path: 'withdraw', component: WithdrawComponent },
+      { path: 'transfer', component: TransferComponent },
+      { path: 'help', component: HelpSupportComponent },
+      { path: 'banking-guide', component: BankingGuideComponent },
+      { path: 'security-tips', component: SecurityTipsComponent },
+      { path: 'terms-conditions', component: TermsConditionsComponent },
+      { path: 'transactions', component: TransactionHistoryComponent },
+      {
+        path: 'transactions/:accountNumber',
+        component: TransactionHistoryComponent,
+      },
+      { path: 'account-information', component: AccountInformationComponent },
+    ],
   },
-  {
-    path: 'deposit',
-    component: DepositComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'withdraw',
-    component: WithdrawComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'transfer',
-    component: TransferComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'transactions',
-    component: TransactionHistoryComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'transactions/:accountNumber',
-    component: TransactionHistoryComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'account-information',
-    component: AccountInformationComponent,
-    canActivate: [AuthGuard],
-  },
-  // Default routes
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home' },
+
+  // Catch all route
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({

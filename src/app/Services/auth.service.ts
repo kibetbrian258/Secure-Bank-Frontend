@@ -1,4 +1,3 @@
-// src/app/components/auth/Services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
@@ -74,5 +73,22 @@ export class AuthService {
         return throwError(() => error);
       })
     );
+  }
+
+  /**
+   * Updates the customer profile information
+   * @param profileData Updated profile data
+   * @returns Observable with the updated profile
+   */
+  updateCustomerProfile(
+    profileData: Partial<CustomerProfile>
+  ): Observable<CustomerProfile> {
+    return this.http
+      .put<CustomerProfile>(this.customerProfileUrl, profileData)
+      .pipe(
+        catchError((error) => {
+          return throwError(() => error);
+        })
+      );
   }
 }

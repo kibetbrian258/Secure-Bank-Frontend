@@ -117,7 +117,7 @@ export class AccountInformationComponent implements OnInit {
         email: this.profile.email,
         phoneNumber: this.profile.phoneNumber,
         address: this.profile.address,
-        // dateOfBirth: this.profile.dateOfBirth ? new Date(this.profile.dateOfBirth).toISOString().split('T')[0] : ''
+        dateOfBirth: this.profile.dateOfBirth ? new Date(this.profile.dateOfBirth).toISOString().split('T')[0] : ''
       });
     }
   }
@@ -141,17 +141,51 @@ export class AccountInformationComponent implements OnInit {
       return;
     }
 
-    const updatedProfile = {
-      ...this.profile,
-      ...this.personalInfoForm.value,
-    };
+    this.loading = true;
+    this.error = '';
+    this.success = '';
 
-    // In a real application, you would call an API to update the profile
-    // For this demo, we'll just update the local state
-    this.profile = updatedProfile;
-    this.editMode = false;
-    this.success = 'Personal information updated successfully';
-    setTimeout(() => (this.success = ''), 3000);
+    // Extract only the changed fields to update
+    const formValue = this.personalInfoForm.value;
+    const updateData: Partial<CustomerProfile> = {};
+    
+    // Only include fields that have changed
+    if (formValue.fullName !== this.profile?.fullName) {
+      updateData.fullName = formValue.fullName;
+    }
+    
+    if (formValue.email !== this.profile?.email) {
+      updateData.email = formValue.email;
+    }
+    
+    if (formValue.phoneNumber !== this.profile?.phoneNumber) {
+      updateData.phoneNumber = formValue.phoneNumber;
+    }
+    
+    if (formValue.address !== this.profile?.address) {
+      updateData.address = formValue.address;
+    }
+    
+    // Call the API to update the profile
+    this.authService.updateCustomerProfile(updateData).subscribe({
+      next: (updatedProfile) => {
+        // Update the local profile data
+        this.profile = updatedProfile;
+        this.editMode = false;
+        this.success = 'Personal information updated successfully';
+        this.loading = false;
+        
+        // Clear the success message after 3 seconds
+        setTimeout(() => (this.success = ''), 3000);
+      },
+      error: (error) => {
+        this.error = error.error?.message || 'Error updating profile. Please try again.';
+        this.loading = false;
+        
+        // Clear the error message after 5 seconds
+        setTimeout(() => (this.error = ''), 5000);
+      }
+    });
   }
 
   onCancelEdit(): void {
@@ -173,33 +207,33 @@ export class AccountInformationComponent implements OnInit {
     }
 
     const accountType = this.newAccountForm.value.accountType;
+    this.loading = true;
+    this.error = '';
+    this.success = '';
 
-    // In a real application, you would call an API to create a new account
-    // For this demo, we'll simulate creating a new account with dummy data
-    const newAccountNumber =
-      '47' + Math.floor(10000000000 + Math.random() * 90000000000);
-    const newAccount: AccountResponse = {
-      id: this.accounts.length + 1,
-      accountNumber: newAccountNumber,
-      customerId: this.profile?.customerId || '',
-      balance: 0,
-      status: 'Active',
-      interestRate: accountType === 'savings' ? 2.5 : 0,
-      branchName: 'Main Branch',
-      branchCode: 'BR001',
-      onlineBanking: true,
-      mobileBanking: true,
-      monthlyFee: accountType === 'checking' ? 5 : 0,
-      minimumBalance: accountType === 'savings' ? 200 : 0,
-      withdrawalLimit: 10000,
-      transferLimit: 10000,
-    };
-
-    this.accounts.push(newAccount);
-    this.selectedAccount = newAccount;
-    this.showNewAccountForm = false;
-    this.success = 'New account created successfully';
-    setTimeout(() => (this.success = ''), 3000);
+    // Call the backend API to create the account
+    this.accountService.createAccount(accountType).subscribe({
+      next: (newAccount) => {
+        // Add the new account to the accounts list
+        this.accounts.push(newAccount);
+        
+        // Select the newly created account
+        this.selectedAccount = newAccount;
+        this.showNewAccountForm = false;
+        this.success = 'New account created successfully';
+        this.loading = false;
+        
+        // Clear the success message after 3 seconds
+        setTimeout(() => (this.success = ''), 3000);
+      },
+      error: (error) => {
+        this.error = error.error?.message || 'Error creating account. Please try again.';
+        this.loading = false;
+        
+        // Clear the error message after 5 seconds
+        setTimeout(() => (this.error = ''), 5000);
+      }
+    });
   }
 
   getAccountTypeName(account: AccountResponse): string {
