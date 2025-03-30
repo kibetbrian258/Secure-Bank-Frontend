@@ -124,20 +124,11 @@
           </div>
         </div>
 
-        <!-- Phone Number field with country selector -->
+        <!-- Phone Number field - updated for Kenyan format -->
         <div class="form-group">
           <label for="phoneNumber" class="form-label">Phone Number</label>
           <div class="phone-input-container">
-            <select 
-              formControlName="country" 
-              class="country-select"
-              (change)="onCountryChange()"
-            >
-              <option value="">Select Country</option>
-              <option *ngFor="let country of eastAfricanCountries" [value]="country.code">
-                {{ country.name }} ({{ country.code }})
-              </option>
-            </select>
+            <div class="country-prefix">+254</div>
             <input
               type="tel"
               formControlName="phoneNumber"
@@ -147,10 +138,13 @@
                 'form-control-error': submitted && f['phoneNumber'].errors
               }"
               autocomplete="tel"
-              placeholder="9XXXXXXXX"
+              placeholder="712345678"
             />
           </div>
-          <small class="form-text text-muted">Enter number without leading zeros</small>
+          <small class="form-text text-muted"
+            >Enter your 9-digit Kenyan phone number without leading zero (e.g.,
+            712345678)</small
+          >
           <div
             *ngIf="submitted && f['phoneNumber'].errors"
             class="invalid-feedback"
@@ -159,7 +153,8 @@
               Phone number is required
             </div>
             <div *ngIf="f['phoneNumber'].errors['pattern']">
-              Enter a valid phone number without country code
+              Enter a valid Kenyan phone number starting with 7 or 1 followed by
+              8 digits
             </div>
           </div>
         </div>

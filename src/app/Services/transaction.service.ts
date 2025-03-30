@@ -32,7 +32,8 @@ export class TransactionService {
         `Error Code: ${error.status}, Message: ${error.message}`;
     }
 
-    console.error(errorMessage);
+    console.error('Transaction service error:', errorMessage);
+    console.error('Error details:', error);
     return throwError(() => error);
   }
 
@@ -70,6 +71,7 @@ export class TransactionService {
   searchTransactions(
     searchRequest: TransactionSearchRequest
   ): Observable<TransactionResponse[]> {
+    console.log('Searching transactions with request:', searchRequest);
     return this.http
       .post<TransactionResponse[]>(`${this.apiUrl}/search`, searchRequest)
       .pipe(catchError(this.handleError));
@@ -81,6 +83,11 @@ export class TransactionService {
     page: number = 0,
     size: number = 10
   ): Observable<PagedResponse<TransactionResponse>> {
+    console.log(
+      `Searching paginated transactions - page ${page}, size ${size}`
+    );
+    console.log('Search request:', JSON.stringify(searchRequest));
+
     return this.http
       .post<PagedResponse<TransactionResponse>>(
         `${this.apiUrl}/search/paged?page=${page}&size=${size}`,

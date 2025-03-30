@@ -71,7 +71,9 @@ export class TransactionHistoryComponent implements OnInit {
       },
       error: (error) => {
         console.error('Account details error:', error);
-        this.error = error.error?.message || 'Could not load account details. Please try again.';
+        this.error =
+          error.error?.message ||
+          'Could not load account details. Please try again.';
         this.loading = false;
       },
     });
@@ -94,7 +96,8 @@ export class TransactionHistoryComponent implements OnInit {
       },
       error: (error) => {
         console.error('Load accounts error:', error);
-        this.error = error.error?.message || 'Could not load accounts. Please try again.';
+        this.error =
+          error.error?.message || 'Could not load accounts. Please try again.';
         this.loading = false;
       },
     });
@@ -119,50 +122,71 @@ export class TransactionHistoryComponent implements OnInit {
         },
         error: (error) => {
           console.error('Load transactions error:', error);
-          this.error = error.error?.message || 'Could not load transactions. Please try again.';
+          this.error =
+            error.error?.message ||
+            'Could not load transactions. Please try again.';
           this.loading = false;
         },
       });
   }
 
-  // Search transactions with pagination
+  // Search transactions with pagination - updated with better error handling
   searchTransactions(page: number = 0): void {
     this.searching = true;
     this.error = '';
     this.currentPage = page;
 
     // Create a date range if date is provided (for the whole day)
-    let startDate;
-    let endDate;
+    let startDate: string | null = null;
+    let endDate: string | null = null;
 
     if (this.searchForm.value.date) {
-      // Set start date to beginning of the day
-      startDate = new Date(this.searchForm.value.date);
-      startDate.setHours(0, 0, 0, 0);
+      try {
+        // Set start date to beginning of the day
+        const start = new Date(this.searchForm.value.date);
+        start.setHours(0, 0, 0, 0);
+        startDate = start.toISOString();
 
-      // Set end date to end of the day
-      endDate = new Date(this.searchForm.value.date);
-      endDate.setHours(23, 59, 59, 999);
+        // Set end date to end of the day
+        const end = new Date(this.searchForm.value.date);
+        end.setHours(23, 59, 59, 999);
+        endDate = end.toISOString();
+
+        console.log('Date range:', { startDate, endDate });
+      } catch (error) {
+        console.error('Error formatting date:', error);
+        this.error = 'Invalid date format. Please select a valid date.';
+        this.searching = false;
+        return;
+      }
     }
 
     // Only include non-empty values in the search request
     const searchRequest: TransactionSearchRequest = {};
-    
-    if (this.searchForm.value.accountNumber && this.searchForm.value.accountNumber.trim() !== '') {
+
+    if (
+      this.searchForm.value.accountNumber &&
+      this.searchForm.value.accountNumber.trim() !== ''
+    ) {
       searchRequest.accountNumber = this.searchForm.value.accountNumber;
     }
-    
-    if (this.searchForm.value.type && this.searchForm.value.type.trim() !== '') {
+
+    if (
+      this.searchForm.value.type &&
+      this.searchForm.value.type.trim() !== ''
+    ) {
       searchRequest.type = this.searchForm.value.type;
     }
-    
+
     if (startDate) {
-      searchRequest.startDate = startDate.toISOString();
+      searchRequest.startDate = startDate;
     }
-    
+
     if (endDate) {
-      searchRequest.endDate = endDate.toISOString();
+      searchRequest.endDate = endDate;
     }
+
+    console.log('Sending search request:', JSON.stringify(searchRequest));
 
     this.transactionService
       .searchTransactionsPaginated(searchRequest, page, this.pageSize)
@@ -176,7 +200,8 @@ export class TransactionHistoryComponent implements OnInit {
         },
         error: (error) => {
           console.error('Search error:', error);
-          this.error = error.error?.message || 'Search failed. Please try again.';
+          this.error =
+            error.error?.message || 'Search failed. Please try again.';
           this.searching = false;
         },
       });
@@ -200,8 +225,8 @@ export class TransactionHistoryComponent implements OnInit {
   isValidSearch(): boolean {
     const values = this.searchForm.value;
     return !!(
-      (values.accountNumber && values.accountNumber.trim() !== '') || 
-      (values.type && values.type.trim() !== '') || 
+      (values.accountNumber && values.accountNumber.trim() !== '') ||
+      (values.type && values.type.trim() !== '') ||
       values.date
     );
   }
@@ -258,8 +283,8 @@ export class TransactionHistoryComponent implements OnInit {
   hasSearchValues(): boolean {
     const values = this.searchForm.value;
     return !!(
-      (values.accountNumber && values.accountNumber.trim() !== '') || 
-      (values.type && values.type.trim() !== '') || 
+      (values.accountNumber && values.accountNumber.trim() !== '') ||
+      (values.type && values.type.trim() !== '') ||
       values.date
     );
   }

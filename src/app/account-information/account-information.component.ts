@@ -5,6 +5,7 @@ import { CustomerProfile } from '../models/CustomerProfile';
 import { AccountResponse } from '../models/AccountResponse';
 import { AuthService } from '../Services/auth.service';
 import { AccountService } from '../Services/account.service';
+import { UpdateProfileRequest } from '../models/UpdateProfileRequest';
 
 @Component({
   selector: 'app-account-information',
@@ -58,7 +59,10 @@ export class AccountInformationComponent implements OnInit {
         ],
       ],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', Validators.pattern('^[+]?[0-9]{10,15}$')],
+      phoneNumber: [
+        '',
+        [Validators.required, Validators.pattern(/^(7|1)[0-9]{8}$/)],
+      ],
       address: ['', Validators.maxLength(200)],
       dateOfBirth: [''],
     });
@@ -112,12 +116,22 @@ export class AccountInformationComponent implements OnInit {
 
   updatePersonalInfoForm(): void {
     if (this.profile) {
+      // Extract phone number without country code if it exists
+      let phoneNumber = this.profile.phoneNumber || '';
+
+      // Remove the +254 prefix if present
+      if (phoneNumber.startsWith('+254')) {
+        phoneNumber = phoneNumber.substring(4);
+      }
+
       this.personalInfoForm.patchValue({
         fullName: this.profile.fullName,
         email: this.profile.email,
-        phoneNumber: this.profile.phoneNumber,
+        phoneNumber: phoneNumber,
         address: this.profile.address,
-        dateOfBirth: this.profile.dateOfBirth ? new Date(this.profile.dateOfBirth).toISOString().split('T')[0] : ''
+        dateOfBirth: this.profile.dateOfBirth
+          ? new Date(this.profile.dateOfBirth).toISOString().split('T')[0]
+          : '',
       });
     }
   }
@@ -145,46 +159,46 @@ export class AccountInformationComponent implements OnInit {
     this.error = '';
     this.success = '';
 
-    // Extract only the changed fields to update
     const formValue = this.personalInfoForm.value;
-    const updateData: Partial<CustomerProfile> = {};
-    
-    // Only include fields that have changed
-    if (formValue.fullName !== this.profile?.fullName) {
-      updateData.fullName = formValue.fullName;
-    }
-    
-    if (formValue.email !== this.profile?.email) {
-      updateData.email = formValue.email;
-    }
-    
-    if (formValue.phoneNumber !== this.profile?.phoneNumber) {
-      updateData.phoneNumber = formValue.phoneNumber;
-    }
-    
-    if (formValue.address !== this.profile?.address) {
-      updateData.address = formValue.address;
-    }
-    
+
+    // Create the update request object that matches the backend DTO structure
+    const updateRequest: UpdateProfileRequest = {
+      fullName: formValue.fullName,
+      email: formValue.email,
+      phoneNumber: formValue.phoneNumber, // Backend expects 9 digits without prefix
+      address: formValue.address || null,
+      dateOfBirth: formValue.dateOfBirth
+        ? new Date(formValue.dateOfBirth)
+        : null,
+    };
+
+    console.log('Sending update request:', updateRequest);
+
     // Call the API to update the profile
-    this.authService.updateCustomerProfile(updateData).subscribe({
+    this.authService.updateCustomerProfile(updateRequest).subscribe({
       next: (updatedProfile) => {
-        // Update the local profile data
+        console.log('Profile updated:', updatedProfile);
         this.profile = updatedProfile;
         this.editMode = false;
         this.success = 'Personal information updated successfully';
         this.loading = false;
-        
-        // Clear the success message after 3 seconds
         setTimeout(() => (this.success = ''), 3000);
       },
       error: (error) => {
-        this.error = error.error?.message || 'Error updating profile. Please try again.';
+        console.error('Update error details:', error);
+
+        if (error.error && error.error.errors) {
+          // Handle validation errors from Spring Boot
+          const validationErrors = error.error.errors;
+          this.error = Object.values(validationErrors).join(', ');
+        } else {
+          this.error =
+            error.error?.message || 'Error updating profile. Please try again.';
+        }
+
         this.loading = false;
-        
-        // Clear the error message after 5 seconds
         setTimeout(() => (this.error = ''), 5000);
-      }
+      },
     });
   }
 
@@ -216,23 +230,24 @@ export class AccountInformationComponent implements OnInit {
       next: (newAccount) => {
         // Add the new account to the accounts list
         this.accounts.push(newAccount);
-        
+
         // Select the newly created account
         this.selectedAccount = newAccount;
         this.showNewAccountForm = false;
         this.success = 'New account created successfully';
         this.loading = false;
-        
+
         // Clear the success message after 3 seconds
         setTimeout(() => (this.success = ''), 3000);
       },
       error: (error) => {
-        this.error = error.error?.message || 'Error creating account. Please try again.';
+        this.error =
+          error.error?.message || 'Error creating account. Please try again.';
         this.loading = false;
-        
+
         // Clear the error message after 5 seconds
         setTimeout(() => (this.error = ''), 5000);
-      }
+      },
     });
   }
 
@@ -261,5 +276,23 @@ export class AccountInformationComponent implements OnInit {
       month: '2-digit',
       day: '2-digit',
     });
+  }
+
+  // Helper method to display formatted phone with prefix for view
+  getFormattedPhoneNumber(phone: string | undefined): string {
+    if (!phone) return 'N/A';
+
+    // If already has +254, return as is
+    if (phone.startsWith('+254')) {
+      return phone;
+    }
+
+    // If it starts with a 0, remove it and add +254
+    if (phone.startsWith('0')) {
+      return '+254' + phone.substring(1);
+    }
+
+    // Otherwise just add +254
+    return '+254' + phone;
   }
 }

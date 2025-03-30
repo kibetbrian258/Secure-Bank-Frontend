@@ -231,7 +231,7 @@
         </div>
 
         <!-- Recent Statements -->
-        <h3>Recent Statements</h3>
+        <!-- <h3>Recent Statements</h3>
         <div class="statements-section">
           <div class="statement-item">
             <span class="statement-date">March 2025 Statement</span>
@@ -245,7 +245,7 @@
             <span class="statement-date">January 2025 Statement</span>
             <button class="btn btn-primary btn-sm">Download</button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -353,15 +353,34 @@
                 </div>
               </div>
 
+              <!-- Phone Number input with Kenyan format - For Personal Information Tab -->
+              <!-- Replace the existing phone number form group in the account-information.component.html -->
+
               <div class="form-group">
                 <label for="phoneNumber">Phone Number:</label>
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  formControlName="phoneNumber"
-                  class="form-control"
-                  [readonly]="!editMode"
-                />
+                <div
+                  class="phone-input-container"
+                  [ngClass]="{
+                    'form-control-error':
+                      editMode &&
+                      personalInfoForm.get('phoneNumber')?.invalid &&
+                      personalInfoForm.get('phoneNumber')?.touched
+                  }"
+                >
+                  <div class="country-prefix">+254</div>
+                  <input
+                    type="tel"
+                    id="phoneNumber"
+                    formControlName="phoneNumber"
+                    class="form-control phone-input"
+                    [readonly]="!editMode"
+                    placeholder="712345678"
+                  />
+                </div>
+                <small *ngIf="editMode" class="form-text text-muted"
+                  >Enter your 9-digit Kenyan phone number without leading zero
+                  (e.g., 712345678)</small
+                >
                 <div
                   *ngIf="
                     editMode &&
@@ -370,7 +389,17 @@
                   "
                   class="invalid-feedback"
                 >
-                  Enter a valid phone number
+                  <div
+                    *ngIf="personalInfoForm.get('phoneNumber')?.errors?.['required']"
+                  >
+                    Phone number is required
+                  </div>
+                  <div
+                    *ngIf="personalInfoForm.get('phoneNumber')?.errors?.['pattern']"
+                  >
+                    Enter a valid Kenyan phone number starting with 7 or 1
+                    followed by 8 digits
+                  </div>
                 </div>
               </div>
             </div>

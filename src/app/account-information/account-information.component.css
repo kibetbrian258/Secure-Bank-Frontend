@@ -507,3 +507,58 @@ h3 {
     align-self: stretch;
   }
 }
+
+/* Phone input styling for account information component */
+.phone-input-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.country-prefix {
+  background-color: #f1f3f4;
+  padding: 12px 15px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #5f6368;
+  border-right: 1px solid #ddd;
+}
+
+.phone-input {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+}
+
+.phone-input:focus {
+  border: none;
+  box-shadow: none;
+}
+
+.phone-input-container:focus-within {
+  border-color: #4285f4;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+.phone-input-container.form-control-error {
+  border-color: #d93025;
+}
+
+.form-text {
+  color: #5f6368;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* Profile detail - phone display styling */
+.detail-value.phone-number {
+  display: flex;
+  align-items: center;
+}
+
+.country-code {
+  color: #5f6368;
+  margin-right: 4px;
+}

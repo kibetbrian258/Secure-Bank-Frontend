@@ -1,11 +1,14 @@
 <div class="layout-container">
   <!-- Header -->
   <header class="header">
-    <button class="mobile-menu-btn" (click)="toggleSidebar()">☰</button>
-    <div class="title">Secure Bank</div>
-    <div class="header-spacer"></div>
-    <div class="customer-name">{{ customerName }}</div>
-    <button class="logout-btn" (click)="logout()">Logout</button>
+    <div class="header-left">
+      <button class="mobile-menu-btn" (click)="toggleSidebar()">☰</button>
+      <div class="title">Secure Bank</div>
+    </div>
+    <div class="header-right">
+      <div class="customer-name">{{ customerName }}</div>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
   </header>
 
   <div class="content-container">

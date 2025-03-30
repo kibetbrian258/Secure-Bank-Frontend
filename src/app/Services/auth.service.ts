@@ -7,6 +7,7 @@ import { JwtResponse } from '../models/jwt-response';
 import { Customer } from '../models/Customer';
 import { LoginRequest } from '../models/LoginRequest';
 import { CustomerProfile } from '../models/CustomerProfile';
+import { UpdateProfileRequest } from '../models/UpdateProfileRequest';
 import { environment } from '../Environments/environment';
 
 @Injectable({
@@ -77,16 +78,19 @@ export class AuthService {
 
   /**
    * Updates the customer profile information
-   * @param profileData Updated profile data
+   * @param profileData Updated profile data as per UpdateProfileRequest DTO
    * @returns Observable with the updated profile
    */
   updateCustomerProfile(
-    profileData: Partial<CustomerProfile>
+    profileData: UpdateProfileRequest
   ): Observable<CustomerProfile> {
+    console.log('Auth service sending update:', profileData);
     return this.http
       .put<CustomerProfile>(this.customerProfileUrl, profileData)
       .pipe(
+        tap((response) => console.log('Profile update response:', response)),
         catchError((error) => {
+          console.error('Profile update error in service:', error);
           return throwError(() => error);
         })
       );
