@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../Environments/environment';
+
 import { AccountResponse } from '../models/AccountResponse';
+import { environment } from '../Environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',

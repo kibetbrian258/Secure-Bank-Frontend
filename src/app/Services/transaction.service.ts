@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../Environments/environment';
 import { TransactionResponse } from '../models/TransactionResponse';
 import { DepositRequest } from '../models/DepositRequest';
 import { WithdrawRequest } from '../models/WithdrawRequest';
 import { TransferRequest } from '../models/TransferRequest';
 import { TransactionSearchRequest } from '../models/TransactionSearchRequest';
 import { PagedResponse } from '../models/PagedResponse';
+import { environment } from '../Environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',

@@ -8,7 +8,7 @@ import { Customer } from '../models/Customer';
 import { LoginRequest } from '../models/LoginRequest';
 import { CustomerProfile } from '../models/CustomerProfile';
 import { UpdateProfileRequest } from '../models/UpdateProfileRequest';
-import { environment } from '../Environments/environment';
+import { environment } from '../Environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
