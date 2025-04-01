@@ -130,7 +130,7 @@ export class TransactionHistoryComponent implements OnInit {
       });
   }
 
-  // Search transactions with pagination - updated with better error handling
+  // Search transactions with pagination - updated with proper date formatting
   searchTransactions(page: number = 0): void {
     this.searching = true;
     this.error = '';
@@ -145,12 +145,14 @@ export class TransactionHistoryComponent implements OnInit {
         // Set start date to beginning of the day
         const start = new Date(this.searchForm.value.date);
         start.setHours(0, 0, 0, 0);
-        startDate = start.toISOString();
+        // Format date in the pattern that backend expects: yyyy-MM-dd'T'HH:mm:ss
+        startDate = this.formatDateForBackend(start);
 
         // Set end date to end of the day
         const end = new Date(this.searchForm.value.date);
         end.setHours(23, 59, 59, 999);
-        endDate = end.toISOString();
+        // Format date in the pattern that backend expects: yyyy-MM-dd'T'HH:mm:ss
+        endDate = this.formatDateForBackend(end);
 
         console.log('Date range:', { startDate, endDate });
       } catch (error) {
@@ -205,6 +207,18 @@ export class TransactionHistoryComponent implements OnInit {
           this.searching = false;
         },
       });
+  }
+
+  // Format date to match backend expected format: yyyy-MM-dd'T'HH:mm:ss
+  private formatDateForBackend(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   }
 
   // Format transactions for display
